@@ -146,9 +146,9 @@ def randomizer(message,salt):
         except:
             pass
 
-        quarter = x & 0xFFFF    # lower 16 bits
+        quarter = x & 0xFFFF    
         quarter = rol(quarter, 5, 16) 
-        half = x & 0xFFFFFFFF  # lower 32 bits  
+        half = x & 0xFFFFFFFF  
         half = ror(half, 17, 32)
 
         x ^= (quarter | (half << 16))
