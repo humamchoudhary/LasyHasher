@@ -195,7 +195,7 @@ def mainLoop(message,salt="0"):
         
     out = ""
     paddedmsg = pad(message)
-    message_list = chuckization(paddedmsg,len(paddedmsg)//1024)
+    message_list = chuckization(paddedmsg,(len(paddedmsg)//1024 or 256))
     
     for i in message_list:
         out+=eachLoop(str(i),salt)
@@ -216,15 +216,20 @@ def mainLoop(message,salt="0"):
 
 
 def hash(data,salt="0"):
-    print(len(data))
     if len(data) > 10240:
         data = str(gzip.compress(data.encode()))
-    print(len(data))
 
     return mainLoop(data,salt)
 
 if __name__ =="__main__":
-    with open("./temp.txt","r") as f:
-        print(hash(f.read(),salt=input("Enter salt: ")))
+    inp = input("Enter text: ")
+    cond = int(input("Salt:\n1- Generate salt\n2-Input Salt\n3- No salt: "))
+    if cond ==1:
+        salt = secrets.token_hex(8)
+    elif cond == 2:
+        salt = input("Enter Salt: ")
+    else:
+        salt = "0" 
+    print(hash(inp,salt))
 
 
